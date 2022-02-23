@@ -1,0 +1,393 @@
+Configuration
+git config --global user.name "Adiansyah Putra"
+git config --global user.email "adiansyahhputra@gmail.com"
+
+Congifurasi Visual studio code
+git config --global core.editor "code --wait"
+git config --global diff.tool "default-difftool"
+git config --global difftool.default-difftool.cmd "code --wait --diff \$LOCAL \$REMOTE"
+
+Melihat Seluruh Configuration
+git config --list --show-origin
+
+Repository
+Repository merupakan sebutan project di Git
+Kita bisa membuat folder kosong atau folder yang sudah berisi file, lalu membuatnya sebagai Git Repository
+Atau kita bisa melakukan clone Git Repository yang sudah ada dari Server Git
+
+Membuat Repository
+Untuk membuat repository, kita hanya perlu menggunakan perintah :
+git init
+Dan dilakukan dari dalam folder yang akan kita jadikan sebagai Git Repository
+Setelah membuat Git Repository, kita bisa lihat ada folder baru dengan nama .git
+.git merupakan folder yang berisikan database Git, jangan sampai kita mengubah data yang terdapat pada folder .git
+
+git status
+
+Menambah File
+Untuk menambah file baru ke Repository, kita cukup tambahkan file nya saja
+Secara otomatis file yang kita tambahkan awalnya akan berada di working directory
+Secara default saat menambah file baru, file tersebut tidak akan di track perubahannya
+Agar perubahan di track, kita harus pindahkan dari working directory ke staging index
+
+Kode : Memindahkan ke Staging Index
+git add *namafile
+
+Kode : Commit ke Repository
+git commit -m "menambahfilebaru"
+
+Mengubah File
+git add *namafile
+
+Melihat Perubahan File
+git diff
+
+Menghapus File
+Untuk menghapus file di Repository, kita cukup lakukan delete file nya di folder nya
+Secara otomatis Git akan mendeteksi file yang hilang
+Sama seperti menambah dan menghapus, jika ingin simpan secara permanen di Repository, kita harus  menambahkan operasi tersebut  ke Staging Index,  lalu commit ke Repository 
+
+git add . (all)
+
+Membatalkan Penambahan File
+Jika kita menambah  file di Working Directory, lalu misal kita ingin membatalkan perubahannya
+Caranya cukup sederhana, kita hanya perlu menghapus file tersebut, atau bisa menggunakan perintah :
+git clean -f
+
+Membatalkan Perubahan File
+Jika kita ingin membatalkan perubahan file yang telah kita lakukan, kita bisa menggunakan perintah :
+git restore namafile
+
+Membatalkan Penghapusan File
+Penghapusan file sebenarnya sama dengan perubahan file, jadi jika kita ingin membatalkan penghapusan file, kita bisa gunakan perintah yang sama dengan membatalkan perubahan file :
+git restore namafile
+
+Membatalkan dari Staging Index
+Perintah git restore hanya bisa dilakukan untuk membatalkan perubahan yang terjadi di Working Directory
+Artinya jika perubahan terlanjur kita masukkan ke Staging Index, maka untuk membatalkannya tidak bisa kita lakukan secara langsung dari Staging Index
+Kita perlu mengembalikan posisi dari Staging Index ke Working Directory terlebih dahulu, caranya kita bisa gunakan perintah :
+git restore --staged namafile
+
+Membatalkan Yang Sudah di Commit
+Bagaimana jika perubahan yang kita lakukan terlanjur di commit?
+Tidak ada cara yang bisa kita lakukan jika perubahan sudah terlanjur di commit
+Yang bisa kita lakukan adalah dengan dua cara, Rollback Commit atau Revert Commit
+Kedua cara tersebut akan kita bahas di materi sendiri-sendir
+
+Commit Log
+Git adalah distributed version control, artinya walaupun kita Repository di local komputer kita, semua riwayat perubahan disimpan di komputer kita
+Kekurangannya menjadi makin lama Repository akan semakin besar ukurannya, namun keuntungannya, kita bisa melihat semua riwayat commit, atau disebut Commit Log
+Untuk melihat Commit Log, kita bisa gunakan perintah : 
+git log
+
+Log Sederhana
+Kadang kita hanya ingin melihat commit log message nya saja atau istilahnya adalah versi sederhananya saja
+Untuk melakukan itu, kita bisa gunakan perintah :
+git log --oneline
+
+Graph
+Saat nanti kita sudah belajar tentang Git Branching, kadang kita ingin melihat commit log dengan hubungannya dengan commit log sebelumnya
+Hal ini bisa kita lakukan menggunakan perintah :
+git log --oneline --graph
+
+Melihat Detail Commit
+Kadang kita ingin melihat detail perubahan yang terjadi pada sebuah commit
+Untuk melakukan itu, kita bisa gunakan perintah :
+git show *hash
+
+Compare Commit
+Git memiliki fitur untuk membandingkan antara commit dengan commit lainnya
+Namun jangan sampai salah pengertian, membandingkan disini adalah membandingkan snapshot hasil commit, bukan perubahan yang terjadi antara commit
+Misal pada commit sebelumnya kita pernah menambah file3.txt, namun jika kita bandingkan antara commit pertama dan terakhir (HEAD), hasilnya hanyalah perbandingan antara file1 dan file2, tidak ada file3
+Hal ini dikarenakan membandingkan commit bukanlah membandingkan perubahan yang pernah terjadi, melainkan membandingkan hasil di commit
+Untuk membandingkan commit, kita bisa gunakan perintah :
+git diff hash1 hash2
+
+Difftool
+Sebelumnya kita sudah melakukan pengaturan menggunakan Visual Studio Code untuk melihat diff
+Jika kita ingin menggunakan visual studio code untuk melihat perbedaan antar commit, kita bisa gunakan perintah :
+git difftool hash1 hash2
+
+Rename File
+Hal yang paling menarik di Git adalah, Git bisa mendeteksi rename file
+Secara sederhana sebenarnya rename file merupakan operasi gabungan antara hapus file, lalu menambah file baru dengan isi yang sama
+Namun Git bisa otomatis mendeteksi jika terjadi perubahan nama file, karena isi file sebagian besar masih sama
+
+Reset Commit
+Sebelumnya kita sudah tahu membatalkan perubahan, namun bagaimana jika ternyata perubahan sudah terlanjur kita commit ke Repository?
+Untuk hal seperti itu, kita bisa melakukan reset commit
+Reset commit merupakan mekanisme dimana kita menggeser HEAD pointer ke posisi commit yang kita mau, artinya commit selanjutnya akan dilakukan pada posisi HEAD baru
+Untuk melakukan reset commit, kita bisa gunakan perintah :
+git reset <mode> hash
+Ada beberapa mode pengaturan melakukan reset commit
+
+Mode Git Reset
+--soft, memindahkan HEAD pointer, namun tidak melakukan perubahan apapun di Staging Index dan Working Directory
+--mixed (default), memindahkan HEAD pointer, mengubah Staging Index menjadi sama seperti dengan Repository, namun tidak mengubah apapun di Working Directory
+--hard, memindahkan HEAD pointer, dan mengubah Staging Index dan Working Directory sehingga sama dengan Repository
+
+Rewrite Riwayat Commit
+Jika kita melakukan reset, namun kita belum membuat commit baru
+Kita masih bisa kembali maju lagi ke commit yang paling baru
+Namun jika kita membuat commit baru, secara otomatis commit lama akan ditimpa oleh commit baru
+
+Amend Commit
+Kadang saat sudah melakukan commit, mungkin ada beberapa hal yang terlupakan
+Biasanya kita akan lakukan reset soft ke commit sebelumnya, lalu tambahkan perubahan yang terlupakan, lalu kita lakukan commit ulang
+Hal tersebut bisa dilakukan tanpa manual melakukan reset, caranya bisa menggunakan perintah :
+git commit --amend -m "isipesan"
+Perlu diingat, amend akan mengubah hash commit karena data perubahan yang dicommit bertambah
+
+Versi Sebelumnya
+Kadang kita sering mengalami masalah dengan file yang sudah kita commit ke Repository
+Git memiliki fitur dimana kita bisa melihat versi file pada commit sebelumnya
+Saat kita ambil versi file sebelumnya, file pada commit tersebut akan berada di Staging Index
+Untuk melakukannya, kita bisa gunakan perintah :
+git checkout hash -- namafile
+
+Kode : Git Status
+Misal kita ingin melihat file1.txt sebelum terjadi perubahan di commit 1b5f564, maka kita bisa gunakan perintah : git checkout 2118ac3 -- file1.txt
+
+Snapshot Sebelumnya
+Git juga memiliki fitur seperti mesin waktu, dimana kita bisa kembali pada snapshot sebelumnya
+Kita bisa tentukan kemana tujuan snapshot kita hanya dengan menggunakan hash commit
+Cara jika kita ingin menuju ke snapshot tertentu, cukup gunakan perintah :
+git checkout hash
+Jika ingin kembali ke paling awal, kita bisa gunakan perintah :
+git checkout namabranch
+
+Git Branch
+Materi branching akan dibahas pada course terpisah, namun secara default saat kita membuat Git Repository, maka secara otomatis Git akan membuat branch
+Untuk melihat nama branch saat ini, kita bisa gunakan perintah :
+git branch --show-current
+
+Revert Commit
+Git memiliki fitur revert commit, yaitu fitur untuk membatalkan commit yang sudah kita lakukan dengan cara membuat commit baru yang membatalkan commit sebelumnya
+Misal kita sudah melakukan commit data perubahan dari text Eko menjadi Eka, jika kita revert, secara otomatis akan membuat commit baru dengan melakukan perubahan dari Eko ke Eko
+Untuk melakukan revert commit, kita bisa gunakan perintah :
+git revert hash
+
+Ignore
+Kadang saat membuat aplikasi, tidak semua file ingin kita track di Git, contoh seperti file log, hasil kompilasi, kadang itu tidak butuh di track di Git
+Git memiliki fitur ignore, dimana kita bisa meminta Git secara otomatis tidak men-track file di Git
+Caranya kita bisa tambahkan file .gitignore di Repository
+Lalu kita bisa tambahkan tiap baris di file .gitignore berisikan file atau folder yang tidak kita ingin track
+Isi .gitignore
+# Ignore folder log
+log/
+
+# Ignore file extension .backup
+*.backup
+
+# Ignore ignore.txt
+ignore.txt
+
+Blame
+Saat membuat kode program kadang kita ingin tahu, siapa yang menambahkan baris kode program tersebut, dan apa saja yang ditambahkan
+Git memiliki fitur yang bernama blame, ini digunakan untuk mencari tahu, siapa yang menambah perubahan pada file dan juga untuk mengetahui commit nya
+Caranya kita bisa gunakan perintah :
+git blame namafile
+
+Alias
+Git memiliki fitur yang bernama alias
+Dengan alias, kita bisa menambah nama perintah lain untuk perintah yang sudah ada di git
+Misal kita bisa menambah perintah co, komit untuk nama lain dari commit misalnya
+Atau misal menambah alias logline untuk nama lain dari log --oneline
+
+Melihat Branch Saat Ini
+Secara default, Git pasti akan membuat branch utama, biasanya master atau main
+Untuk melihat nama branch saat ini, kita bisa gunakan perintah :
+git branch --show-current
+
+Membuat Branch
+Untuk membuat branch baru, caranya sangat mudah, kita bisa gunakan perintah :
+git branch namabranchbaru
+Saat kita buat branch baru, secara otomatis branch baru akan dimulai dari posisi branch kita saat ini, jika misal kita membuat branch baru ketika posisi kita sedang di branch master, maka branch baru tersebut akan dibuat dari branch master
+
+Melihat Semua Branch
+Untuk melihat semua branch yang ada di Repository kita, kita bisa gunakan perintah :
+git branch --list
+Atau lebih singkat :
+git branch
+
+Pindah ke Branch Lain
+Setelah kita membuat branch baru, kita tidak secara otomatis akan pindah branch
+Untuk pindah ke branch lain, kita perlu lakukan secara manual
+Caranya kita bisa gunakan perintah :
+git switch namabranch
+git checkout namabranch
+
+Mengubah Nama Branch
+Jika kita melakukan kesalahan pembuatan nama branch, kita juga bisa lakukan perubahan nama branch
+Namun untuk melakukannya, kita perlu pindah terlebih dahulu ke branch yang ingin kita ubah namanya
+Setelah pindah, kita bisa gunakan perintah :
+git branch -m namabranchbaru
+
+Menghapus Branch
+Jika sebuah branch sudah tidak digunakan lagi, idealnya kita perlu menghapus branch tersebut
+Untuk menghapus branch, kita perlu keluar terlebih dahulu dari branch tersebut
+Lalu gunakan perintah :
+git branch -d namabranch
+git branch --delete namabranch
+
+Multiple Branch
+Pada kenyataannya, saat membuat aplikasi, branch biasanya akan dibuat banyak sekali
+Git mendukung multiple branch, artinya sebanyak apapun branch yang kita buat, Git bisa menanganinya dengan baik
+
+Merge
+Merge adalah proses dimana kita melakukan penggabungan dua buah branch
+Merge biasanya dilakukan setelah kita selesai membuat kode program di sebuah branch, dan ingin menggabungkan fitur tersebut ke branch lain, misal ke branch utama
+Saat kita melakukan merge, branch tidak akan dihapus, artinya kita masih tetap bisa melakukan commit di branch yang ada
+Jika kita ingin menghapus branch yang sudah di merge, kita perlu lakukan secara manual
+
+Melakukan Merge
+Untuk melakukan merge, pertama kita perlu pindah ke branch dimana kita lokasi merge akan dilakukan
+Selanjutnya gunakan perintah :
+git merge namabranch
+Artinya branch dari namabranch akan di merge ke dalam branch saat ini kita berada
+
+Graph Log
+Lihat log git dalam bentuk graph menggunakan perintah :
+git log --oneline --graph
+
+Merge Conflict
+Dalam pembuatan aplikasi, biasanya setiap programmer akan melakukan penambahkan kode program di Repository secara parallel
+Biasanya tiap programmer akan membuat branch masing-masing
+Dan tidak bisa dihindari, kadang programmer akan melakukan perubahan pada kode file yang sama di branch berbeda
+Dan biasanya ketika melakukan merge, akan terjadi yang namanya conflict
+Hal ini disebabkan, satu file diubah di branch yang berbeda, sehingga ketika di merge, kita perlu melakukan yang namanya Merge Conflict
+
+Membatalkan Conflict
+Jika terjadi conflict, maka kita wajib memperbaikinya terlebih dahulu
+Semua perubahan yang tidak konflik akan secara otomatis berada di Staging Index
+Sedangkan perubahan yang konflik akan secara otomatis berada di Working Directory
+Jika kita ingin membatalkan merge, kita bisa gunakan perintah :
+git merge --abort
+Secara otomatis semua perubahan di branch yang ingin kita merge akan dihapus
+
+Memperbaiki Conflict
+Saat terjadi conflict, tidak ada cara otomatis memperbaikinya
+Kita perlu memperbaiki conflict secara manual
+Dan jika perbaikan conflict sudah dilakukan, maka kita perlu melakukan commit perubahan tersebut 
+
+Cherry Pick
+Kadang ada kasus, ketika kita membuat kode program di sebuah branch kita ingin melakukan merge, namun tidak ingin melakukan merge semua branch nya, mungkin hanya sebagian commit saja
+Cherry Pick merupakan fitur yang digunakan untuk mengambil commit dari branch manapun dan kita merge ke dalam branch saat ini
+
+Melakukan Cherry Pick
+Misal sekarang kita ingin melakukan merge branch feature/c, namun kita tidak ingin merge semua perubahan
+Misal saja kita hanya ingin melakukan merge perubahan di file1.txt dan file3.txt
+Maka kita bisa melakukan cherry pick untuk commit perubahan tersebut, caranya gunakan perintah :
+git cherry-pick commitId
+
+Tag
+Tag merupakan fitur, dimana kita bisa menandai sebuah commit id
+Sebelumnya kita sudah tahu dengan HEAD, yaitu reference ke commit terakhir di branch kita saat ini
+Jika kita ingin membuat sebuah reference ke sebuah commit, kita bisa menggunakan Tag
+Dalam pengembangan perangkat lunak, biasanya Tag digunakan sebagai penanda versi rilis dari aplikasi, misal Tag 1.0.0, Tag 1.0.2, dan lain-lain
+Karena Tag merupakan reference ke commit, jadi Tag bisa dilakukan di branch manapun
+
+Membuat Tag
+Tag adalah sesuatu yang unik, artinya jika kita sudah membuat tag dengan nama A, maka kita tidak bisa membuat tag dengan nama yang sama lagi
+Untuk membuat tag, kita bisa gunakan perintah :
+git tag tagName commitId
+
+Menampilkan Tag
+Untuk menampilkan semua tag yang ada di Repository, kita bisa menggunakan perintah :
+git tag -l
+git tag --list
+
+Checkout ke Tag
+Seperti yang sudah dijelaskan di kelas Git Dasar, kita kita melihat snapshot sebelumnya di Git
+Sekarang dengan menggunakan Tag, kita juga bisa melihat snapshot sebelumnya tanpa harus menggunakan commitId, cukup menggunakan Tag :
+git checkout tagname
+
+Menghapus Tag
+Tidak ada cara untuk mengubah Tag, jadi jika kita ingin mengubah Tag, kita bisa membuat Tag baru ke commit yang sama, lalu menghapus Tag yang lama
+Untuk menghapus Tag, kita bisa gunakan perintah :
+git tag -d namatag
+git tag --delete namatag
+
+Stash
+Kadang ada keadaan, dimana kita sedang melakukan perubahan di sebuah branch, namun perubahan nya belum disimpan di Repository, misal masih di Working atau Staging Index
+Lalu kita butuh secepatnya melakukan perubahan di branch lain
+Jika perubahan tersebut belum siap kita commit, kita bisa menyimpan semua perubahan tersebut ke Stash
+Stash adalah sebuah tempat dimana kita bisa menyimpan perubahan di Working atau Staging Index secara sementara agar branch saat ini menjadi bersih kembali, sehingga kita bisa pindah ke branch lain
+
+Error Ketika Pindah Branch
+Secara default, ketika kita melakukan perpindahan branch, Git akan secara pintar membawa perubahan yang terjadi di branch saat ini ke branch tujuan pindah
+Namun jika ternyata terdapat conflict, pada kasus kita, pada file1.txt terdapat conflict, maka secara otomatis kita tidak bisa pindah ke branch tersebut
+
+Menyimpan Perubahan ke Stash
+Untuk menyimpan semua perubahan yang terjadi di Working dan Staging Index, kita bisa menggunakan Stash
+Untuk menyimpan perubahan ke Stash, kita bisa gunakan perintah :
+git stash push -m ‘message stash’
+Untuk melihat semua Stash, kita bisa gunakan perintah :
+git stash list
+Untuk melihat perubahan yang terjadi di Stash, kita bisa gunakan perintah 
+git stash show stashId (stash id = angkanya)
+
+Mengambil Perubahan di Stash
+Untuk mengambil perubah di stash, kita bisa gunakan perintah :
+git stash apply stashId
+Untuk menghapus stash, kita bisa gunakan perintah :
+git stash drop stashId
+Untuk menghapus semua stash, kita bisa gunakan perintah :
+git stash clear
+
+Rebase
+Sebelumnya untuk menggabungkan dua buah branch, kita sudah belajar yang namanya merge
+Sekarang kita akan bahas tentang cara lain menggabungkan dua buah branch, yaitu rebase
+Rebase agak sedikit kompleks, jadi kita akan coba bahas secara visual
+
+Melakukan Rebase
+Untuk melakukan rebase, kita bisa lakukan perintah :
+git rebase namabranch
+Jika sekarang kita ada di branch feature/rebase, lalu menggunakan perintah :
+git rebase master
+Artinya kita melakukan rebase semua commit di master ke branch develop
+
+Merge Branch
+Setelah melakukan rebase, bukan berarti branch yang di rebase sekarang posisinya ada di branch yang melakukan rebase, posisinya tetap ada di commit terakhir di branch tersebut
+Seperti yang terlihat pada gambar Diagram Rebase Branch
+Agar posisinya sama dengan branch yang melakukan rebase, kita bisa menggunakan perintah merge
+
+Merge vs Rebase
+Rebase akan terlihat sangat rapih, karena timeline nya seakan terlihat hanya ada satu timeline pada Repository
+Namun, rebase sebenarnya secara otomatis menulis ulang semua commit yang kita lakukan, dalam artian commit id pasti berubah, artinya semua referensi ke commit id sebelum-sebelumnya akan rusak dan hilang
+Tidak ada mana yang lebih baik, semua tergantung kebutuhan
+
+Squash
+Saat kita melakukan merge atau rebase, semua commit history akan tetap ada
+Jadi kita kita di branch tersebut melakukan commit sebanyak 10 kali, ketika kita lakukan merge atau rebase, maka 10 commit tersebut akan tetap ada
+Kadang ada kasus dimana kita ingin melakukan penggabungan commit tersebut menjadi 1 commit saja, hal ini dinamakan Squash
+Squash akan membuat 10 commit history tersebut menjadi 1 commit, dimana semua 10 perubahan tersebut akan digabungkan menjadi 1 commit saja
+
+Melakukan Squash
+Squash bisa dilakukan ketika merge atau ketika rebase
+Untuk melakukan squash ketika merge, kita bisa gunakan perintah :
+git merge --squash namabranch
+perubahan akan masuk ke staging index
+
+Git Branching Strategy
+Materi untuk Git Branching sebenarnya sudah selesai
+Kita sudah mulai bisa menggunakan fitur branching untuk mulai membuat aplikasi kita
+Namun sebelum selesai, kita akan bahas beberapa strategy Git Branching yang populer, yang bisa kita tiru ketika membuat aplikasi
+
+Git Branching Strategy Populer
+Gitflow Workflow
+Trunk Based Development Workflow
+Forking Workflow
+
+Gitflow
+Gitflow adalah strategi git branching yang paling tua dan paling banyak diadopsi
+
+Trunk Based Development
+Trunk Based Development sekarang merupakan salah satu strategi git branching yang sedang populer
+Tujuan dari workflow ini adalah, sederhana dan deliver pekerjaan secepatnya
+https://trunkbaseddevelopment.com/ 
+
+Forking Workflow
+Forking workflow merupakan salah satu strategi git branching yang populer dalam project OpenSource
+Forking adalah mekanisme menduplikasi repository, biasanya hal ini dilakukan karena contributor tidak memiliki akses untuk melakukan perubahan ke repository utama
+https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow 
