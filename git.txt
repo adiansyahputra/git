@@ -391,3 +391,58 @@ Forking Workflow
 Forking workflow merupakan salah satu strategi git branching yang populer dalam project OpenSource
 Forking adalah mekanisme menduplikasi repository, biasanya hal ini dilakukan karena contributor tidak memiliki akses untuk melakukan perubahan ke repository utama
 https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow 
+
+Git Server Repository
+Tiap Git Server biasanya memiliki fitur untuk membuat Git Repository
+Tidak wajib kita harus membuat Git Repository di local dulu jika ingin membuat Git Repository di Git Server
+Sekarang silahkan buat Git Repository di Github dengan nama belajar-git-remote
+https://github.com/new 
+
+SSH
+SSH adalah singkatan dari Secure Shell
+SSH merupakan protokol jaringan untuk komunikasi jaringan yang aman dan terenkripsi
+Pengguna sistem operasi Linux atau Mac biasanya sudah sangat familiar dengan SSH
+SSH merupakan aplikasi berbasis terminal
+Di Linux dan Mac, SSH sudah terinstall secara otomatis, sedangkan di Windows, ketika kita menginstall Git, secara otomatis Git akan menginstall SSH juga
+
+Git SSH
+Git sendiri memiliki beberapa mekanisme untuk berkomunikasi dengan Git Server, seperti http dan SSH
+Pada kelas ini, kita akan menggunakan SSH untuk berkomunikasi dengan Git Server
+Hal ini karena SSH merupakan protokol yang direkomendasikan ketika berkomunikasi dengan Git Server
+
+SSH Key
+Hal pertama yang perlu kita lakukan ketika menggunakan SSH adalah, membuat SSH Key
+SSH Key merupakan kunci yang digunakan untuk autentikasi ke SSH Server
+Untuk membuat SSH Key, kita bisa gunakan perintah ssh-keygen di terminal
+Setelah selesai, maka secara otomatis akan terdapat 2 key di local kita, yaitu private key dan public key
+Kita bisa melihatnya di dalam folder .ssh di Home directory kita
+File id_rsa adalah private key, dan id_rsa.pub adalah public key
+
+Menambahkan SSH Public Key ke Github
+Setelah kita membuat SSH Key, selanjutnya kita perlu meregistrasikan SSH public key ke Github
+Hal ini dilakukan, agar ketika kita nanti terkoneksi ke Git Server di Github, kita tidak perlu melakukan autentikasi lagi
+https://github.com/settings/keys 
+
+Test SSH ke Github
+Selanjutnya untuk memastikan apakah kita sudah bisa terkoneksi ke Github menggunakan SSH, kita bisa gunakan perintah :
+ssh -T git@github.com
+
+Remote Repository
+Ketika kita membuat Git Project, secara default, Git tidak tahu tentang Remote Repository
+Kita perlu memberi tahu ke git project yang sudah kita buat tentang lokasi git repository
+
+Menambah Remote Repository
+Untuk menambah remote repository, kita bisa gunakan perintah :
+git remote add nama ssh-url
+Salah satu kebiasaan di Git, biasanya memberi nama untuk remote repository dengan nama origin
+
+Melihat Remote Repository
+Untuk melihat remote repository yang ada di git project, kita bisa gunakan perintah :
+git remote
+Untuk melihat URL detail remote repository, kita bisa gunakan perintah 
+git remote get-url nama
+
+Menghapus Remote Repository
+Untuk menghapus remote repository, kita bisa gunakan perintah :
+git remote rm nama
+
