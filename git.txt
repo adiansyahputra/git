@@ -466,4 +466,423 @@ Push Semua Branch
 Jika kita ingin mengirim semua perubahan di semua branch ke remote repository, kita bisa gunakan perintah :
 git push origin --all
 
+Menghapus Branch
+Perintah Push juga bisa digunakan untuk menghapus branch yang ada di remote repository
+Kita bisa gunakan perintah 
+git push --delete namaremote namabranch
+Perlu diingat, menghapus remote branch bukan berarti menghapus branch di local, jadi jika kita ingin hapus di local, kita harus lakukan secara manual
+
+Clone
+Apa yang harus dilakukan jika misal kita ingin download project Git yang ada di Server ke komputer baru?
+Hal ini dinamakan perintah clone
+Dengan perintah clone, kita bisa download project di remote repository ke local dan secara otomatis di download sebagai git project
+
+Melakukan Clone
+Untuk melakukan clone, kita bisa gunakan perintah :
+git clone urlremoterepository
+Secara default, clone akan membuat project dengan nama folder sama dengan nama project remote repository
+Jika kita ingin melakukan clone, dengan nama folder yang berbeda dengan nama project remote repository, kita bisa gunakan perintah :
+git clone urlremoterepository namafolder
+
+Default Hasil Clone
+Default clone akan berisi remote repository origin ke git remote repository yang kita clone
+Default clone akan berisikan branch utama di remote repository
+
+Tugas
+Simulasikan terdapat dua pengguna
+Clone project Git di remote di folder yang berbeda
+
+git clone git@github.com:adiansyahputra/belajar-git-remote.git belajar-git-remote-user2 
+
+Remote Branch
+
+Melihat Remote Branch
+Secara default, saat kita melakukan clone, tidak semua remote branch akan di buat di local git project
+Jika kita ingin melihat semua daftar branch yang ada di remote repository, kita bisa gunakan perintah :
+git branch -r
+Atau jika kita ingin melihat semua branch di local dan remote, kita bisa gunakan perintah :
+git branch -a
+
+Membuat Branch dari Remote Branch
+Karena secara default hanya branch utama yang buat di local git project ketika kita clone, kadang kita ingin membuat local branch yang berisikan data dari remote branch
+Untuk melakukan hal itu, kita bisa gunakan perintah :
+git checkout -b localbranch namaremote/remotebranch
+
+git checkout -b feature/a origin/feature/a 
+
+Fetch
+Fetch adalah perintah di Git yang digunakan untuk mendapatkan perubahan terakhir dari remote repository
+Hal ini berguna ketika misal kita ingin mengetahui perubahan apa aja yang sudah terjadi pada remote repository, mungkin rekan kerja kita sudah menambah perubahan ke remote repository
+Fetch itu tidak akan mengubah isi local Git Project kita
+
+Melakukan Fetch
+Untuk melakukan fetch untuk semua branch di remote repository, kita bisa gunakan perintah :
+git fetch namaremote
+Atau jika kita ingin melakukan fetch untuk branch tertentu saja di remote, kita bisa gunakan :
+git fetch namaremote remotebranch
+
+Tugas
+Lakukan commit dan push di user pertama
+Lakukan fetch di user kedua
+Di user kedua Lakukan git diff dari branch local dan branch remote
+
+git fetch origin feature/a
+
+git diff feature/a..origin/feature/a 
+
+Pull
+Jika fetch hanya melakukan untuk mendapatkan perubahan di remote repository tanpa mengubah local repository
+Dengan menggunakan pull, kita akan mengambil perubahan yang ada di remote repository dan disimpan di local repository
+Hati-hati jangan sampai terjadi merge conflict, jika terjadi merge conflict, kita harus perbaiki secara manual seperti yang sudah kita pelajari di materi merge
+Saat kita melakukan pull, secara otomatis kita akan melakukan fetch terlebih dahulu
+
+Melakukan Pull
+Untuk melakukan pull ke local branch saat ini, kita bisa gunakan perintah 
+git pull namaremote namaremotebranch
+
+Tugas
+Lakukan commit dan push di user pertama
+Lakukan pull di user kedua
+Bandingkan local branch dan remote branch di user kedua
+
+git pull origin feature/a
+git diff feature/a..origin/feature/a 
+
+Tag
+Saat kita melakukan push data ke remote repository, data Tag tidak akan di push juga ke remote repository
+Jika kita ingin mengirim data Tag juga, kita perlu melakukan push tag tersebut
+
+Mengirim Tag 
+Untuk mengirim Tag ke remote repository, kita bisa gunakan perintah 
+git push namaremote namatag
+Atau jika kita ingin mengirim semua Tag ke remote repository, kita bisa gunakan perintah 
+git push namaremote --tags
+
+git push origin --tags 
+
+Mengambil Tag
+Untuk mengambil Tag, kita bisa gunakan perintah 
+git fetch namaremote namatag
+Atau jika kita ingin mengambil semua Tag, kita bisa gunakan perintah 
+git fetch namaremote
+
+git fetch origin 
+
+Menghapus Tag
+Saat kita menghapus Tag di local repository, data tag tersebut tetap ada di remote repository
+Jika kita ingin menghapus Tag di remote repository, kita bisa gunakan perintah :
+git push --delete namaremote namatag
+
+git push --delete origin 1.0.0-SNAPSHOT 
+
+Pull Request
+Saat kita bekerja dengan tim, biasanya saat melakukan perubahan kita akan membuat di branch yang berbeda dengan branch utama
+Setelah selesai, kita bisa melakukan yang namanya merge ke branch utama
+Namun, beberapa fitur di remote git repository mendukung fitur yang namanya Pull Request atau Merge Request
+Fitur ini sangat cocok untuk melakukan review otomatis di remote git repository, tanpa harus manual melakukan review dengan git diff
+
+User 1
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  1.0.0  git branch feature/contoh                                     4766
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  1.0.0  git checkout feature/contoh                                   4767
+Switched to branch 'feature/contoh'
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  1.0.0  git status                                            4768
+On branch feature/contoh
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        contoh.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  1.0.0   git add contoh.html                                 4769
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  1.0.0   git commit -m "add contoh.html"                     4770
+[feature/contoh 58c01e1] add contoh.html
+ 1 file changed, 5 insertions(+)
+ create mode 100644 contoh.html
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  git push origin feature/contoh                                4771
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 386 bytes | 193.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: 
+remote: Create a pull request for 'feature/contoh' on GitHub by visiting:
+remote:      https://github.com/adiansyahputra/belajar-git-remote/pull/new/feature/contoh
+remote: 
+To github.com:adiansyahputra/belajar-git-remote.git
+ * [new branch]      feature/contoh -> feature/contoh
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  git status                                           3.25   4772
+On branch feature/contoh
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh   git add index.html                                          4773
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh   git commit -m "add contoh to index.html"                    4774
+[feature/contoh 797064d] add contoh to index.html
+ 1 file changed, 1 insertion(+)
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  git push origin feature/contoh                                4775
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 322 bytes | 322.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:adiansyahputra/belajar-git-remote.git
+   58c01e1..797064d  feature/contoh -> feature/contoh
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/contoh  git checkout master                                  3.27   4776
+Switched to branch 'master'
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  1.0.0  git pull origin master                                        4777
+remote: Enumerating objects: 1, done.
+remote: Counting objects: 100% (1/1), done.
+remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (1/1), 628 bytes | 628.00 KiB/s, done.
+From github.com:adiansyahputra/belajar-git-remote
+ * branch            master     -> FETCH_HEAD
+   54f77d0..e420517  master     -> origin/master
+Updating 54f77d0..e420517
+Fast-forward
+ contoh.html | 5 +++++
+ index.html  | 1 +
+ 2 files changed, 6 insertions(+)
+ create mode 100644 contoh.html
+
+ User 2
+
+  adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master  5  git pull origin master                                                         4779
+From github.com:adiansyahputra/belajar-git-remote
+ * branch            master     -> FETCH_HEAD
+Updating b297db4..e420517
+Fast-forward
+ contoh.html | 5 +++++
+ index.html  | 1 +
+ version.txt | 1 +
+ 3 files changed, 7 insertions(+)
+ create mode 100644 contoh.html
+ create mode 100644 version.txt
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master  clear                                                                     3.39   4780
+
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master  ls -l                                                                              4781
+total 32
+-rw-r--r--  1 adiansyahputra  staff  54 Feb 25 09:08 contoh.html
+-rw-r--r--  1 adiansyahputra  staff  69 Feb 25 09:07 hello.html
+-rw-r--r--  1 adiansyahputra  staff  77 Feb 25 09:08 index.html
+-rw-r--r--  1 adiansyahputra  staff   5 Feb 25 09:08 version.txt
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master  cat index.html                                                                     4782
+<html>
+  <body>
+    <h1>Hello Git</h1>
+    <h1>Contoh</h1>
+  </body>
+</html>
+
+Merge Conflict
+Ketika melakukan Pull Request, kadang sering terjadi Merge Conflict yang menyebabkan tidak bisa lakukan proses merge otomatis
+Pada kasus seperti itu, kita perlu melakukan merge dari branch asal nya terlebih dahulu, lalu memperbaiki conflict nya
+
+User 2
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master   git status                                               4785
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master   git add index.html                                       4786
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master   git commit -m "add user 2 to index.html"                 4787
+[master 5bd2dcd] add user 2 to index.html
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+ adiansyahputra   ~/eko/belajar-git-remote-user2 
+      master  1  git push origin master                                 4788
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 335 bytes | 335.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:adiansyahputra/belajar-git-remote.git
+   e420517..5bd2dcd  master -> master
+
+User 1
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  cat index.html                                               3.57   4778
+<html>
+  <body>
+    <h1>Hello Git</h1>
+    <h1>Contoh</h1>
+  </body>
+</html>
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  git branch feature/user1                                              4790
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      master  git checkout feature/user1                                            4791
+Switched to branch 'feature/user1'
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git status                                                     4792
+On branch feature/user1
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1   git add index.html                                           4793
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1   git commit -m "add user1 to index.html"                      4794
+[feature/user1 31504bc] add user1 to index.html
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git push origin feature/user1                                  4795
+Enumerating objects: 8, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 946 bytes | 946.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'feature/user1' on GitHub by visiting:
+remote:      https://github.com/adiansyahputra/belajar-git-remote/pull/new/feature/user1
+remote: 
+To github.com:adiansyahputra/belajar-git-remote.git
+ * [new branch]      feature/user1 -> feature/user1
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git fetch origin                                      3.30   4796
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
+Unpacking objects: 100% (3/3), 315 bytes | 63.00 KiB/s, done.
+From github.com:adiansyahputra/belajar-git-remote
+   e420517..5bd2dcd  master     -> origin/master
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git pull origin master                                3.75   4797
+From github.com:adiansyahputra/belajar-git-remote
+ * branch            master     -> FETCH_HEAD
+hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+fatal: Need to specify how to reconcile divergent branches.
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git merge origin/main                           128 ↵  3.39   4798
+merge: origin/main - not something we can merge
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git merge origin/master                                    1 ↵  4799
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1 | merge  git status                                         1 ↵  4800
+On branch feature/user1
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1 | merge  GIT STATUS                                             4801
+fatal: cannot handle STATUS as a builtin
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1 | merge  git status                                       128 ↵  4802
+On branch feature/user1
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1 | merge  git add index.html                                     4803
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1 | merge  git commit -m "fix conflict index.html"                4804
+[feature/user1 a78b485] fix conflict index.html
+
+ adiansyahputra   ~/eko/belajar-git-remote 
+      feature/user1  git push origin feature/user1                                  4805
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 372 bytes | 372.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:adiansyahputra/belajar-git-remote.git
+   31504bc..a78b485  feature/user1 -> feature/user1
 
